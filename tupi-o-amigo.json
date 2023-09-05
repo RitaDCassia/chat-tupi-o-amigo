@@ -1,0 +1,73 @@
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": ["Oi", "Ola", "Oi!", "Ola!", "Oi pessoal", "Oi pessoal!", "Oi amigo", "Oi amigo!"],
+      "responses": ["Oi, qual seu nome?", "Ola, como posso te chamar?", "Oi! Como você está?", "Oi, como posso ajudar?"]
+    },
+    {
+      "tag": "goodbye",
+      "patterns": ["Tchau", "Até logo", "Adeus", "Até mais", "Tchau Tchau"],
+      "responses": ["Até logo!", "Tenha um bom dia!", "Até mais tarde!", "Tchau! Espero te ver em breve."]
+    },
+    {
+      "tag": "thanks",
+      "patterns": ["Obrigado", "Obrigada", "Valeu", "Agradecido", "Muito obrigado"],
+      "responses": ["De nada!", "Por nada!", "Sempre feliz em ajudar!", "Estou aqui para ajudar!", "Não há de quê!"]
+    },
+    {
+      "tag": "noanswer",
+      "patterns": [],
+      "responses": ["Desculpe, não entendi.", "Por favor, me dê mais informações.", "Não tenho certeza se entendi.", "Ainda estou aqui."]
+    },
+    {
+      "tag": "name",
+      "patterns": ["Como você se chama?", "Qual é o seu nome?", "Seu nome?", "Quem é você?", "Qual seu apelido?"],
+      "responses": ["Me chamo Tupi, um amigo virtual.", 
+      "Pode me chamar de Tupi.", 
+      "Eu sou o Tupi, seu amigo virtual."]
+    },
+    {
+      "tag": "tupi_info",
+      "patterns": ["o que voce pode fazer?", "o que você faz?"],
+      "responses": ["Me chamo Tupi, sou um assistente virtual educacional focado em te ajudar a responder perguntas."]
+    },
+    {
+      "tag": "what_is_me",
+      "patterns": ["O que é voce?"],
+      "responses": ["Eu sou um algoritmo, do tipo LLM, fui criado pelo projeto Povos da Floresta para ajudar com questões educacionais."]
+    },
+    {
+      "tag":"problem_internet",
+      "patterns":["Eu preciso de ajuda, não consigo me conectar a internet", "a internet não funciona", "a internet caiu"],
+      "responses":["Hum, deixe-me pensar, pode pedir ao facilitador para checar os cabos de conexão?"]
+    },
+    {
+      "tag":"checked_cables_error",
+      "patterns":["Eu chequei os cabos de conexão, mas não funciona.", "oa cabos ja foram checados mas não funciona", "ja olhei, não funciona"],
+      "responses":["Fale com o facilitador para contactar o suporte do projeto, ele é administrado pela Solved."]
+    },
+    {
+      "tag":"checked_cables",
+      "patterns":["Agora tenho internet",  "a internet voltou", "funcionou a internet"],
+      "responses":["Perfeito!, conte sempre comigo."]
+    },
+    {
+      "tag": "options",
+      "patterns": ["O que você faz?", "Como você pode ajudar?", "Qual é o seu propósito?", "O que você sabe fazer?", "o que voce pode fazer?"],
+      "responses": ["Eu sou um amigo virtual, estou aqui para responder suas perguntas.", 
+      "Posso te ajudar a responder perguntas sobre diversos assuntos.", 
+      "Eu sou um amigo virtual, aqui posso te ajudar a responder todas as perguntas do mundo."]
+    },
+    {
+      "tag": "povos_da_floresta_info",
+      "patterns": ["Povos da floresta", "O que você sabe sobre o projeto povos da floresta?", "o que é o povos da floresta", "Conte-me sobre o povos da floresta", "O que voce sabe sobre o projeto conexão povos da floresta?"],
+      "responses": ["É um projeto brasileiro que promove de maneira responsável a conectividade entre as pessoas, nosso objetivo vai além de ter internet, nos organizamos em 4 linhas de pensamento: saúde, educação, segurança e empreendedorismo."]
+    },
+    {
+      "tag": "project_membres",
+      "patterns":["Como posso fazer parte do projeto?", "participar do projeto", "entrar"],
+      "responses":["Voce já faz, se voce tem interesse em um dos temas do projeto: Saude, Educação, segurança e empreendedorismo, fale com o facilitador da sua comunidade."]
+    }
+  ]
+}

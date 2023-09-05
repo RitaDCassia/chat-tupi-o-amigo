@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <!-- Metadados do documento -->
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Chat Tupi</title>
+    <!-- Importação de folhas de estilo -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!-- Estilos personalizados -->
+    <style>
+        body, html {
+            height: 100%;
+            /* Define a altura máxima do corpo e da página */
+        }
+
+        .chat-container {
+            height: 100vh;
+            /* Define a altura da área de chat como 100% da altura da viewport */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .message-container {
+            /* Área onde as mensagens são exibidas */
+            display: flex;
+            flex-direction: column;
+            height: 80vh; /* Define a altura da área de mensagens como 80% da viewport */
+
+            border-radius: 5px;
+            padding: 10px;
+            overflow-y: scroll;
+            /* Habilita a rolagem vertical quando o conteúdo ultrapassar a altura */
+            
+            /* As próximas linhas sobrepõem estilos anteriores */
+            flex: 1;
+            overflow-y: auto;
+            border-radius: 10px;
+            margin-right: 10px;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        .message {
+            padding: 10px;
+            margin: 5px;
+            border-radius: 10px;
+            max-width: 70%;
+        }
+
+        .user-message {
+            background-color: #DCF8C6;
+            align-self: flex-start;
+        }
+
+        .tupi-message {
+            background-color: #E0E0E0;
+            align-self: flex-end;
+        }
+
+        .typing-message {
+            color: #888888;
+            align-self: flex-end;
+        }
+
+        .send-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .send-button {
+            padding: 5px 15px;
+            font-size: 14px;
+            border-radius: 20px;
+            background-color: #007BFF;
+            border: none;
+            color: white;
+        }
+
+        .input-box {
+            border-radius: 20px;
+            padding: 10px;
+            flex-grow: 1;
+            border: none;
+            background-color: #f9f9f9;
+        }
+
+        .chat-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div id="chat-container"></div>
+<script src="https://cdn.jsdelivr.net/npm/chatwoot-widget@latest/dist/chatwoot.min.js"></script>
+<script>
+  Chatwoot.init({
+    domain: "http://127.0.0.1:8888/",
+    widget: {
+      title: "Chat with us",
+      placement: "left",
+      size: "small",
+    },
+  });
+</script>
+<!-- Início do corpo do documento -->
+<div class="container">
+    <div class="chat-container">
+        <h1 style="text-align: center;">Tupi o amigo</h1>
+        <br>
+        <hr>
+        <div class="message-container" id="message-container">
+            <!-- Área onde as mensagens são exibidas -->
+        </div>
+        <div class="send-container">
+            <!-- Área de envio de mensagem -->
+            <input class="form-control input-box" type="text" name="question" id="question">
+            <button class="btn btn-primary send-button" id="submit-button">Enviar</button>
+        </div>
+    </div>
+</div>
+<!-- Fim do corpo do documento -->
+
+<!-- Scripts JavaScript -->
+<script src="/static/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script>
+    // Script JavaScript que manipula a interação do chat
+    jQuery(document).ready(function () {
+
+        // Manipula o clique no botão de envio
+        $("#submit-button").click(function (e) {
+            e.preventDefault();
+            var userMessage = $("#question").val();
+            appendMessage("user", userMessage);
+            $("#question").val(""); // Limpa o campo de entrada
+            appendMessage("tupi", "...");
+            scrollToBottom();
+            // Envia a pergunta do usuário para o servidor
+            $.ajax({
+                type: "POST",
+                url: "/chatbot",
+                data: {
+                    question: userMessage
+                },
+                success: function (result) {
+                    // Atualiza a última mensagem com a resposta do chatbot após um atraso
+                    setTimeout(function () {
+                        replaceLastMessage("tupi", result.response);
+                    }, 500);
+                },
+                error: function (result) {
+                    alert('error');
+                }
+            });
+        });
+
+        // Função para adicionar uma mensagem à área de mensagens
+        function appendMessage(author, content) {
+            var message = $("<div></div>").addClass("message");
+            if (author === "user") {
+                message.addClass("user-message");
+            } else if (author === "tupi") {
+                message.addClass("tupi-message");
+            } else if (author === "typing") {
+                message.addClass("typing-message");
+            }
+            message.text(content);
+            $("#message-container").append(message);
+            scrollToBottom();
+        }
+
+        // Função para substituir a última mensagem
+        function replaceLastMessage(author, content) {
+            var lastMessage = $("#message-container .message").last();
+            lastMessage.text(content);
+            scrollToBottom();
+        }
+
+        // Função para rolar a área de mensagens até o fundo
+        function scrollToBottom() {
+            var messageContainer = document.getElementById("message-container");
+            messageContainer.scrollTop = messageContainer.scrollHeight;
+        }
+
+    });
+</script>
+</body>
+</html>
